@@ -21,4 +21,26 @@ class AuthService {
       throw new Exception(data["message"] ?? "Invalid Email or Password");
     }
   }
+
+  Future<Map<String,dynamic>> register(String fullName,String email,String password,String phoneNumber,String institution) async{
+    final response = await http.post(
+      Uri.parse(Constants.baseUrl+"/auth/register"),
+      headers: <String,String>{
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode(<String,String>{
+        "email": email,
+        "password": password,
+        "fullName": fullName,
+        "phoneNumber": phoneNumber,
+        "institution": institution
+      })
+    );
+    final data = jsonDecode(response.body);
+    if(response.statusCode == 200){
+      return data;
+    }else {
+      throw new Exception(data["message"] ?? "Invalid Email or Password");
+    }
+  }
 }
